@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Sala {
+    char nome[50];
+    struct Sala *esq;
+    struct Sala *dir;
+} Sala;
+
+Sala* criarSala(const char *nome) {
+    Sala *nova = (Sala*) malloc(sizeof(Sala));
+    if (nova != NULL) {
+        strcpy(nova->nome, nome);
+        nova->esq = NULL;
+        nova->dir = NULL;
+    }
+    return nova;
+}
+
+void explorarSalas(Sala *atual) {
+    char opcao;
+
+    while (atual != NULL) {
+        printf("\nVocê está em: %s\n", atual->nome);
+
+        if (atual->esq == NULL && atual->dir == NULL) {
+            printf("Fim do caminho. Não há mais salas.\n");
+            return;
+        }
+
+        printf("Opções:\n");
+        if (atual->esq != NULL)
+            printf("e - Ir para a esquerda\n");
+        if (atual->dir != NULL)
+            printf("d - Ir para a direita\n");
+        printf("s - Sair\n");
+        printf("Escolha: ");
+        scanf(" %c", &opcao);
+
+        if (opcao == 'e' && atual->esq != NULL) {
+            atual = atual->esq;
+        } else if (opcao == 'd' && atual->dir != NULL) {
+            atual = atual->dir;
+        } else if (opcao == 's') {
+            printf("Exploração encerrada.\n");
+            return;
+        } else {
+            printf("Opção inválida.\n");
+        }
+    }
+}
+
+int main() {
+    Sala *hall = criarSala("Hall de Entrada");
+    Sala *biblioteca = criarSala("Biblioteca");
+    Sala *salaJantar = criarSala("Sala de Jantar");
+    Sala *cozinha = criarSala("Cozinha");
+    Sala *quarto = criarSala("Quarto Principal");
+
+    hall->esq = biblioteca;
+    hall->dir = salaJantar;
+    biblioteca->esq = cozinha;
+    biblioteca->dir = quarto;
+
+    printf("Exploração da Mansão Iniciada\n");
+    explorarSalas(hall);
+
+    free(cozinha);
+    free(quarto);
+    free(biblioteca);
+    free(salaJantar);
+    free(hall);
+
+    return 0;
+}
