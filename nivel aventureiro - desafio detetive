@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Sala {
+    char nome[50];
+    struct Sala *esq;
+    struct Sala *dir;
+} Sala;
+
+typedef struct Pista {
+    char texto[50];
+    struct Pista *esq;
+    struct Pista *dir;
+} Pista;
+
+/* ---------- SALAS ---------- */
+
+Sala* criarSala(const char *nome) {
+    Sala *nova = (Sala*) malloc(sizeof(Sala));
+    if (nova != NULL) {
+        strcpy(nova->nome, nome);
+        nova->esq = NULL;
+        nova->dir = NULL;
+    }
+    return nova;
+}
+
+/* ---------- PISTAS (BST) ---------- */
+
+Pista* criarPista(const char *texto) {
+    Pista *nova = (Pista*) malloc(sizeof(Pista));
+    if (nova != NULL) {
+        strcpy(nova->texto, texto);
+        nova->esq = NULL;
+        nova->dir = NULL;
+    }
+    return nova;
+}
+
+Pista* inserirPista(Pista *raiz, const char *texto)*
